@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/jwaltrip/aca-dash/issues"
   },
-  "homepage": "https://github.com/jwaltrip/aca-dash#readme"
+  "homepage": "https://github.com/jwaltrip/aca-dash#readme",
+  "dependencies": {
+    "mocha": "^5.2.0"
+  }
 }

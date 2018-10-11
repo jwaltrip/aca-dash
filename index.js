@@ -1,4 +1,7 @@
 
+// require assert for testing
+const assert = require('assert');
+
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
 //create a function called `map`, it should take 2 parameters `array` and `iteratee`
 //`array` must be an array
@@ -12,7 +15,24 @@
 //add the returned value from iteratee tp myNewArray
 //after looping, return  myNewArray
 function map(array, iteratee){
+  // new array to be returned
+  const returnArr = [];
 
+  // loop over every item in array
+  for (let i=0; i<array.length; i++) {
+    // console.log(array[i]);
+
+    // if callback parameter is provided
+    if (iteratee) {
+      // console.log("callback present");
+
+      // push the new mutated value to the return array
+      returnArr.push(iteratee(array[i]));
+    }
+  }
+
+  // return new array
+  return returnArr;
 }
 
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
@@ -25,7 +45,29 @@ function map(array, iteratee){
 //iteratee will return true or false, if true add the item to myNewArray else do not
 //after looping, return myNewArray
 function filter(array, iteratee){
+  // new array to be returned
+  const returnArr = [];
 
+  // loop over every item in array
+  for (let i=0; i<array.length; i++) {
+    // console.log(arr[i]);
+
+    // if callback parameter is provided
+    if (iteratee) {
+      // console.log("callback present");
+
+      // check to see if the current array item returned from callback fn is the same as current array item
+      const callbackReturn = iteratee(array[i]);
+
+      // if callbackReturn is true, then push current item to returnArr
+      if ( callbackReturn ) {
+        returnArr.push(array[i]);
+      }
+    }
+  }
+
+  // return new array
+  return returnArr;
 }
 
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find
@@ -35,18 +77,18 @@ function filter(array, iteratee){
 //fnc will return true or false, if true return the item 
 //after looping, return null
 function find(theArray, fnc){
-
+  // TODO create find method and tests
 }
 
 
 //return the last item in theArray
 function findLast(theArray){
-
+  return theArray[theArray.length-1];
 }
 
 //return the first element of the array
 function head(theArray){
-
+  return theArray[0];
 }
 
 //create a new array
@@ -54,7 +96,15 @@ function head(theArray){
 //add the item from each loop to the new array
 //return the new array
 function reverse(theArray){
+  // array to be returned
+  const returnArr = [];
 
+  // loop over theArray in reverse order, and push items into returnArr
+  for (let i=theArray.length-1; i>=0; i--) {
+    returnArr.push(theArray[i]);
+  }
+
+  return returnArr;
 }
 
 //create a new array
@@ -62,7 +112,15 @@ function reverse(theArray){
 //add the item from each loop to the new array except the first item
 //return the new array
 function tail(theArray){
+  // return array
+  const returnArr = [];
 
+  // loop over theArray starting at index 1, and push values to returnArr
+  for (let i=1; i<theArray.length; i++) {
+    returnArr.push(theArray[i]);
+  }
+
+  return returnArr;
 }
 
 //implement the most basic sorting algorithm there is
@@ -76,7 +134,7 @@ function tail(theArray){
 //after each for loop check the variable, if true, continue the while loop
 //if false return theArray
 function sort(theArray){
-
+  // TODO implement numerical sort and tests
 }
 
 exports.map = map;
@@ -87,3 +145,67 @@ exports.reverse = reverse;
 exports.tail = tail;
 exports.sort = sort;
 exports.findLast = findLast;
+
+
+// unit tests
+if (typeof describe === 'function') {
+
+  describe('#map()', () => {
+    const arr = [1, 2, 3];
+    const mapped = map(arr, (num) => {
+      return num * num;
+    });
+    it('should return new array with mapped items', () => {
+      assert.deepEqual(mapped, [1, 4, 9]);
+    });
+    it('should not affect the original array', () => {
+      assert.deepEqual(arr, [1, 2, 3]);
+    })
+  });
+
+  describe('#filter()', () => {
+    it('should return an array of items that pass the predicate test', () => {
+      const filtered = filter([1, 2, 3], (num) => {
+        return num % 2 === 0;
+      });
+      assert.deepEqual(filtered, [2]);
+    });
+  });
+
+  describe('#findLast()', () => {
+    it('should return the last item of an array', () => {
+      const last = findLast([1, 9, 3]);
+      assert.equal(last, 3);
+    });
+    it('should return the last item of an array, even if theres only 1 element', () => {
+      const last = findLast([7]);
+      assert.equal(last, 7);
+    });
+  });
+
+  describe('#head()', () => {
+    it('should return the first item of an array', () => {
+      const first = head([2, 1, 7]);
+      assert.equal(first, 2);
+    });
+    it('should return the first item of an array, even if theres only 1 element', () => {
+      const first = head([9]);
+      assert.equal(first, 9);
+    });
+  });
+
+  describe('#reverse()', () => {
+    it('should return the input array in reverse', () => {
+      const reverseArr = reverse([1, 2, 3, 4, 5, 6]);
+      assert.deepEqual(reverseArr, [6, 5, 4, 3, 2, 1]);
+    });
+  });
+
+  describe('#tail()', () => {
+    it('should return all values of the original array except for the first index', () => {
+      const tailArr = tail([1, 2, 3, 4, 5, 6]);
+      assert.deepEqual(tailArr, [2, 3, 4, 5, 6]);
+    });
+  });
+
+}
