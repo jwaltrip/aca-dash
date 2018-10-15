@@ -77,9 +77,24 @@ function filter(array, iteratee){
 //fnc will return true or false, if true return the item 
 //after looping, return null
 function find(theArray, fnc){
-  // TODO create find method and tests
-}
 
+  // loop over every item in array
+  for (let i=0; i<theArray.length; i++) {
+
+    // if callback parameter is provided
+    if (fnc) {
+      const didFind = fnc(theArray[i]);
+
+      // if didFind = true, return theArray[i]
+      if (didFind) {
+        return theArray[i];
+      }
+    }
+  }
+
+  // if did not find item in array, return null
+  return null;
+}
 
 //return the last item in theArray
 function findLast(theArray){
@@ -123,6 +138,8 @@ function tail(theArray){
   return returnArr;
 }
 
+// BUBBLE SORT
+
 //implement the most basic sorting algorithm there is
 //assume the array will always have numbers
 //use a while loop to constantly loop theArray until it is sorted
@@ -134,7 +151,38 @@ function tail(theArray){
 //after each for loop check the variable, if true, continue the while loop
 //if false return theArray
 function sort(theArray){
-  // TODO implement numerical sort and tests
+  let isSorted; // set this to true when array is sorted
+  do {
+
+    isSorted = false;
+
+    // loop over theArray
+    for (let i=0; i<theArray.length; i++) {
+
+      const leftSide = theArray[i];
+      const rightSide = theArray[i+1];
+
+      if (rightSide < leftSide) {
+        const temp = leftSide;
+
+        // assign leftside value = rightside
+        theArray[i] = theArray[i+1];
+
+        // assign rightside value = leftside (stored in temp value)
+        theArray[i+1] = temp;
+
+        // set isSorted = true because a swap occurred
+        isSorted = true;
+      }
+    }
+
+    // check isSorted == true, if true, continue while loop
+    // if isSorted == false, return  theArray
+    if (!isSorted) {
+      return theArray;
+    }
+
+  } while(isSorted);
 }
 
 exports.map = map;
@@ -205,6 +253,34 @@ if (typeof describe === 'function') {
     it('should return all values of the original array except for the first index', () => {
       const tailArr = tail([1, 2, 3, 4, 5, 6]);
       assert.deepEqual(tailArr, [2, 3, 4, 5, 6]);
+    });
+  });
+
+  describe('#sort()', () => {
+    it('should return an array numerically sorted using bubble sort technique', () => {
+      const sortArr = sort([2, 1, 8, 3, 0, -1]);
+      assert.deepEqual(sortArr, [-1, 0, 1, 2, 3, 8]);
+    });
+  });
+
+  describe('#find()', () => {
+    it('should find and return the first element in an array if value is in array', () => {
+      const array1 = [5, 12, 8, 130, 44];
+
+      const found = array1.find((element) => {
+        return element > 10;
+      });
+
+      assert.equal(found, 12);
+    });
+    it('should return null if value is in not array', () => {
+      const array1 = [5, 12, 8, 130, 44];
+
+      const found = array1.find((element) => {
+        return element === 10;
+      });
+
+      assert.equal(found, null);
     });
   });
 
