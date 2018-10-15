@@ -17,19 +17,14 @@ const assert = require('assert');
 function map(array, iteratee){
   // new array to be returned
   const returnArr = [];
-
   // loop over every item in array
   for (let i=0; i<array.length; i++) {
-
     // if callback parameter is provided
     if (iteratee) {
-      // console.log("callback present");
-
       // push the new mutated value to the return array
       returnArr.push(iteratee(array[i]));
     }
   }
-
   // return new array
   return returnArr;
 }
@@ -46,24 +41,18 @@ function map(array, iteratee){
 function filter(array, iteratee){
   // new array to be returned
   const returnArr = [];
-
   // loop over every item in array
   for (let i=0; i<array.length; i++) {
-
     // if callback parameter is provided
     if (iteratee) {
-      // console.log("callback present");
-
       // check to see if the current array item returned from callback fn is the same as current array item
       const callbackReturn = iteratee(array[i]);
-
       // if callbackReturn is true, then push current item to returnArr
       if ( callbackReturn ) {
         returnArr.push(array[i]);
       }
     }
   }
-
   // return new array
   return returnArr;
 }
@@ -75,21 +64,18 @@ function filter(array, iteratee){
 //fnc will return true or false, if true return the item 
 //after looping, return null
 function find(theArray, fnc){
-
   // loop over every item in array
   for (let i=0; i<theArray.length; i++) {
-
     // if callback parameter is provided
     if (fnc) {
+      // call the callback and store the result
       const didFind = fnc(theArray[i]);
-
       // if didFind = true, return theArray[i]
       if (didFind) {
         return theArray[i];
       }
     }
   }
-
   // if did not find item in array, return null
   return null;
 }
@@ -111,12 +97,10 @@ function head(theArray){
 function reverse(theArray){
   // array to be returned
   const returnArr = [];
-
   // loop over theArray in reverse order, and push items into returnArr
   for (let i=theArray.length-1; i>=0; i--) {
     returnArr.push(theArray[i]);
   }
-
   return returnArr;
 }
 
@@ -127,12 +111,10 @@ function reverse(theArray){
 function tail(theArray){
   // return array
   const returnArr = [];
-
   // loop over theArray starting at index 1, and push values to returnArr
   for (let i=1; i<theArray.length; i++) {
     returnArr.push(theArray[i]);
   }
-
   return returnArr;
 }
 
@@ -151,35 +133,24 @@ function tail(theArray){
 function sort(theArray){
   let isSorted; // set this to true when array is sorted
   do {
-
     isSorted = false;
-
     // loop over theArray
     for (let i=0; i<theArray.length; i++) {
-
       // this is for readability
       const leftSide = theArray[i];
       const rightSide = theArray[i+1];
-
+      // check to see if left and right side need to be swapped
       if (rightSide < leftSide) {
-        const temp = leftSide;
+        const temp = leftSide;  // temp var to facilitate swap
+        theArray[i] = theArray[i+1]; // assign leftside value = rightside
+        theArray[i+1] = temp; // assign rightside value = leftside (stored in temp value)
 
-        // assign leftside value = rightside
-        theArray[i] = theArray[i+1];
-
-        // assign rightside value = leftside (stored in temp value)
-        theArray[i+1] = temp;
-
-        // set isSorted = true because a swap occurred
-        isSorted = true;
+        isSorted = true; // set isSorted = true because a swap occurred
       }
     }
-
     // check isSorted == true, if true, continue while loop
     // if isSorted == false, return  theArray
-    if (!isSorted) {
-      return theArray;
-    }
+    if (!isSorted) return theArray;
 
   } while(isSorted);
 }
