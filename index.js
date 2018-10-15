@@ -20,7 +20,6 @@ function map(array, iteratee){
 
   // loop over every item in array
   for (let i=0; i<array.length; i++) {
-    // console.log(array[i]);
 
     // if callback parameter is provided
     if (iteratee) {
@@ -50,7 +49,6 @@ function filter(array, iteratee){
 
   // loop over every item in array
   for (let i=0; i<array.length; i++) {
-    // console.log(arr[i]);
 
     // if callback parameter is provided
     if (iteratee) {
@@ -159,6 +157,7 @@ function sort(theArray){
     // loop over theArray
     for (let i=0; i<theArray.length; i++) {
 
+      // this is for readability
       const leftSide = theArray[i];
       const rightSide = theArray[i+1];
 
